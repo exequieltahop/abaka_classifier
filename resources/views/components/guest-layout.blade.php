@@ -1,0 +1,3 @@
+<x-app-layout title="{{$title}}">
+    {{$slot}}
+</x-app-layout>
