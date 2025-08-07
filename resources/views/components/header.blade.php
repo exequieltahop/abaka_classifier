@@ -1,4 +1,4 @@
-<header class="bg-white rounded p-3 w-100 shadow mb-3">
+<header class="bg-white rounded p-3 w-100 shadow mb-3 position-sticky top-0">
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <x-icon type="bars text-secondary m-0 d-block d-sm-none cursor-pointer" data-bs-toggle="offcanvas" data-bs-target="#nav-mobile"/>

@@ -1,4 +1,4 @@
-<aside class="d-none d-sm-block" style="width: fit-content;">
+<aside class="d-none d-sm-block " style="width: fit-content; position: sticky !important; top: 0 !important;">
     <div class="d-flex justify-content-center w-100">
         <img src="" alt="" style="width: 50px; height: 50px;">
     </div>
@@ -21,7 +21,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">
-                            <a href="" class="text-decoration-none text-nowrap text-secondary ">
+                            <a href="{{route('signin')}}" class="text-decoration-none text-nowrap text-secondary ">
                                 <x-icon type="sign-in" />
                                 Sign In
                             </a>

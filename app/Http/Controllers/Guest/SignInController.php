@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Guest;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+class SignInController extends Controller
+{
+    public function index() {
+        try {
+            return view('pages.guest.signin.index');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            abort(500);
+        }
+    }
+
+    // process signin
+    public function processSignin(Request $request) {
+        try {
+            // validate
+            $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required', 'min:8']
+            ]);
+
+            // if failed to authenticate then response 401
+            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+                return response(null, 401);
+            }
+
+            // response 200
+            return response(null, 200);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response(null, 500);
+        }
+    }
+}
