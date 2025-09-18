@@ -11,9 +11,11 @@ class AuthLayout extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public string $title;
+
+    public function __construct(string $title = "App")
     {
-        //
+        $this->title = $title;
     }
 
     /**

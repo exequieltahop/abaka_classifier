@@ -1,3 +1,7 @@
-<div>
-    <!-- It is not the man who has too little, but the man who craves more, that is poor. - Seneca -->
-</div>
+<x-app-layout title="{{$title}}">
+    <x-header/>
+    <main class="">
+        {{$slot}}
+    </main>
+    <footer></footer>
+</x-app-layout>
