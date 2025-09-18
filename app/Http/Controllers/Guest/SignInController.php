@@ -20,23 +20,25 @@ class SignInController extends Controller
 
     // process signin
     public function processSignin(Request $request) {
-        try {
-            // validate
-            $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required', 'min:8']
-            ]);
+        // validate
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8']
+        ]);
 
-            // if failed to authenticate then response 401
-            if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                return response(null, 401);
-            }
-
-            // response 200
-            return response(null, 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return response(null, 500);
+        // if failed to authenticate then response 401
+        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->filled('remember_me'))){
+            return response(null, 401);
         }
+
+        // response 200
+        return response(null, 200);
+    }
+
+    // sign ou
+    public function signout() {
+        Auth::logout();
+
+        return redirect()->route('home');
     }
 }

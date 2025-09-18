@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/signin', [SignInController::class, 'index'])->name('signin');
 Route::post('/signin/process', [SignInController::class, 'processSignin'])->name('signin.process');
+Route::get('signout', [SignInController::class, 'signout'])->name('signout');
