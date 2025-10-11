@@ -9,17 +9,18 @@ use Illuminate\Support\Facades\Log;
 
 class SignInController extends Controller
 {
+    /**
+     * This return a view of sign in page
+     * 
+     * @return 
+     */
     public function index() {
-        try {
-            return view('pages.guest.signin.index');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            abort(500);
-        }
+        return view('pages.guest.signin.index');
     }
 
     // process signin
     public function processSignin(Request $request) {
+
         // validate
         $request->validate([
             'email' => ['required', 'email'],

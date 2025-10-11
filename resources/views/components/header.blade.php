@@ -9,8 +9,8 @@
             </button>
 
             {{-- brand --}}
-            <a href="#" class="text-black-200 font-bold text-violet-900 uppercase block sm:hidden">Abaca Classification System</a>
-            <a href="#" class="text-black-200 font-bold text-violet-900 uppercase hidden sm:block">ACS</a>
+            <span class="text-black-200 font-bold text-violet-900 uppercase block sm:hidden">Abaca Classification System</span>
+            <a href="{{route('home')}}" class="text-black-200 font-bold text-violet-900 uppercase hidden sm:block">ACS</a>
 
             {{-- nav --}}
             <nav class="hidden sm:flex align-center space-x-4">

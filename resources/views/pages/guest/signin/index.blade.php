@@ -39,7 +39,7 @@
                     {{-- submit btn --}}
                     <x-button type="submit" button-class="btn-primary" id="submit-btn">
                         <x-icon type="check" />
-                        Submit
+                        Sign In
                     </x-button>
                 </fieldset>
             </form>
@@ -65,6 +65,7 @@
                 e.preventDefault();
 
                 submit_btn.disabled = true;
+                submit_btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing';
                 try {
                     // url and post request
                     const url = `{{route('signin.process')}}`;
@@ -101,6 +102,7 @@
                             text: 'Invalid Credentials'
                         }).then(()=>{
                             submit_btn.disabled = false;
+                            submit_btn.innerHTML = '<i class="fa-solid fa-check"></i> Sign In';
                             return;
                         });
                     } else if (response.status == 200){ // if 200 then ok
@@ -110,6 +112,7 @@
                             text: 'Successfully Sign In'
                         }).then(()=>{
                             submit_btn.disabled = false;
+                            submit_btn.innerHTML = '<i class="fa-solid fa-check"></i> Sign In';
                             window.location.href = '{{route('home')}}';
                         });
                     }
@@ -117,6 +120,7 @@
                 } catch (error) {
                     // if error
                     submit_btn.disabled = false;
+                    submit_btn.innerHTML = '<i class="fa-solid fa-check"></i> Sign In';
                     console.error(error.message);
                     Swal.fire({
                         title: 'Error',
