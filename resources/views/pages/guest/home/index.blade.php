@@ -44,71 +44,105 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async function() {
-            // ✅ Rename variable to avoid overriding window.URL
+            const video = document.getElementById("video");
+            const takePicBtn = document.getElementById("take-pic-btn");
+            const imgPreview = document.getElementById("image-preview");
+            const imgElement = document.getElementById("img-preview");
+            const predicted_class = document.getElementById("predicted-class");
+
             const modelBaseURL = "{{ asset('web_model/') }}/";
+            let model, maxPredictions;
 
-            let model, labelContainer, maxPredictions;
-
-            // Load model
+            // ✅ Load the Teachable Machine model
             async function loadModel() {
                 const modelURL = modelBaseURL + "model.json";
                 const metadataURL = modelBaseURL + "metadata.json";
                 model = await window.tmImage.load(modelURL, metadataURL);
                 maxPredictions = model.getTotalClasses();
-
-                labelContainer = document.getElementById("label-container");
-                labelContainer.innerHTML = "";
-                for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.appendChild(document.createElement("div"));
-                }
             }
 
             await loadModel();
 
-            // Handle file input
-            document.getElementById("upload-img").addEventListener("change", async (event) => {
-                const imgPreview = document.getElementById("image-preview");
-                const file = event.target.files[0];
-                const predicted_class = document.getElementById('predicted-class');
+            // ✅ Open the camera
+            async function startCamera() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: "environment"
+                        },
+                        audio: false
+                    });
+                    video.srcObject = stream;
+                } catch (err) {
+                    console.error("Camera error:", err);
+                    alert("Unable to access camera. Please allow permission.");
+                }
+            }
 
-                if (!file) {
-                    imgPreview.classList.add('hidden');
-                    predicted_class.textContent = 'Class Predicted: ';
+            // ✅ Stop camera when done
+            function stopCamera() {
+                const stream = video.srcObject;
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    video.srcObject = null;
+                }
+            }
+
+            // ✅ Take picture from video and classify
+            takePicBtn.addEventListener("click", async () => {
+                if (!video.srcObject) {
+                    alert("Camera not started yet!");
                     return;
                 }
 
-                // Show image preview
+                // Create canvas for snapshot
+                const canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                imgPreview.classList.remove('hidden');
+                // Convert canvas to image preview
+                imgPreview.classList.remove("hidden");
+                imgElement.src = canvas.toDataURL("image/png");
 
-                // ✅ use window.URL here
-                let imgElement = document.getElementById('img-preview');
+                // Predict using the model
+                await predict(imgElement, predicted_class);
+            });
 
-                console.log(imgElement);
-
+            // ✅ Handle image upload (same as before)
+            document.getElementById("upload-img").addEventListener("change", async (event) => {
+                const file = event.target.files[0];
+                if (!file) {
+                    imgPreview.classList.add("hidden");
+                    predicted_class.textContent = "Class Predicted: ";
+                    return;
+                }
+                imgPreview.classList.remove("hidden");
                 imgElement.src = window.URL.createObjectURL(file);
-
                 imgElement.onload = async () => {
                     await predict(imgElement, predicted_class);
                 };
             });
 
-            // Predict
+            // ✅ Prediction function (unchanged)
             async function predict(image, predicted_class) {
                 const prediction = await model.predict(image);
-
-                // Find the class with the highest probability
                 let topClass = prediction[0];
                 for (let p of prediction) {
                     if (p.probability > topClass.probability) topClass = p;
                 }
-
-                // Display only the class name of the highest probability
                 predicted_class.textContent = `Class Predicted: ${topClass.className}`;
             }
 
+            // Start camera automatically on page load
+            startCamera();
+
+            // Optional: stop camera when leaving page
+            window.addEventListener("beforeunload", stopCamera);
         });
     </script>
+
 
 
 
