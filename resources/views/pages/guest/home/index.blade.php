@@ -35,9 +35,6 @@
         </div>
     </section>
 
-    <!-- File Input -->
-    <div id="label-container" style="margin-top:10px;"></div>
-
     <!-- TensorFlow & Teachable Machine -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
@@ -63,23 +60,49 @@
 
             await loadModel();
 
-            // ✅ Open the camera
+            // ✅ Camera Access Handler
             async function startCamera() {
                 try {
+                    // Check support
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        alert("Camera not supported on this browser.");
+                        return;
+                    }
+
+                    // Check permission state first
+                    const permissionStatus = await navigator.permissions.query({ name: "camera" }).catch(() => null);
+
+                    if (permissionStatus && permissionStatus.state === "denied") {
+                        alert("Camera permission is denied. Please enable it in your browser settings.");
+                        return;
+                    }
+
+                    if (permissionStatus && permissionStatus.state === "prompt") {
+                        alert("Please allow camera access when prompted.");
+                    }
+
+                    // Try to open camera
                     const stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: "environment"
-                        },
+                        video: { facingMode: "environment" },
                         audio: false
                     });
+
                     video.srcObject = stream;
+                    await video.play();
+                    console.log("Camera started successfully.");
                 } catch (err) {
                     console.error("Camera error:", err);
-                    alert("Unable to access camera. Please allow permission.");
+
+                    if (err.name === "NotAllowedError") {
+                        alert("Camera access denied. Please allow permission in your browser settings.");
+                    } else if (err.name === "NotFoundError") {
+                        alert("No camera device found on this device.");
+                    } else {
+                        alert("Unable to access camera: " + err.message);
+                    }
                 }
             }
 
-            // ✅ Stop camera when done
             function stopCamera() {
                 const stream = video.srcObject;
                 if (stream) {
@@ -88,29 +111,25 @@
                 }
             }
 
-            // ✅ Take picture from video and classify
+            // ✅ Take picture and classify
             takePicBtn.addEventListener("click", async () => {
                 if (!video.srcObject) {
                     alert("Camera not started yet!");
                     return;
                 }
 
-                // Create canvas for snapshot
                 const canvas = document.createElement("canvas");
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 const ctx = canvas.getContext("2d");
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                // Convert canvas to image preview
                 imgPreview.classList.remove("hidden");
                 imgElement.src = canvas.toDataURL("image/png");
 
-                // Predict using the model
                 await predict(imgElement, predicted_class);
             });
 
-            // ✅ Handle image upload (same as before)
             document.getElementById("upload-img").addEventListener("change", async (event) => {
                 const file = event.target.files[0];
                 if (!file) {
@@ -125,7 +144,6 @@
                 };
             });
 
-            // ✅ Prediction function (unchanged)
             async function predict(image, predicted_class) {
                 const prediction = await model.predict(image);
                 let topClass = prediction[0];
@@ -135,15 +153,11 @@
                 predicted_class.textContent = `Class Predicted: ${topClass.className}`;
             }
 
-            // Start camera automatically on page load
+            // ✅ Start camera on load
             startCamera();
 
-            // Optional: stop camera when leaving page
+            // Stop camera when leaving page
             window.addEventListener("beforeunload", stopCamera);
         });
     </script>
-
-
-
-
 </x-guest-layout>
