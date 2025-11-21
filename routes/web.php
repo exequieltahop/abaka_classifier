@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LogsController;
+use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\LogInferencedImageController;
 use App\Http\Controllers\Guest\SignInController;
@@ -16,22 +17,20 @@ Route::post('/log-inference-image', [LogInferencedImageController::class, 'logIm
 
 // auth
 Route::resource('/inferenced-images', LogsController::class)->middleware('is_auth');
-Route::get("/get-file", function(Request $request){
+Route::get("/get-file", function (Request $request) {
 
-    if(!$request->filled('path')) return null;
+    if (!$request->filled('path')) return null;
 
     $type = urldecode($request->type);
 
     $path = urldecode($request->path);
 
-    if($type == "img-src"){
-        if(!Storage::disk('local')->exists($path)) return response(null, 404);
+    if ($type == "img-src") {
+        if (!Storage::disk('local')->exists($path)) return response(null, 404);
 
         $file = Storage::disk('local')->path($path);
 
         return response()->file($file, ['Content-Type' => Storage::disk('local')->mimeType($path)]);
     }
-
-
 })->name('get.file')->middleware('is_auth');
-// Route
+Route::resource("/users", UsersController::class)->middleware(['is_auth', 'is_admin']);

@@ -15,6 +15,27 @@
 
 <body class="bg-whitesmoke">
     {{ $slot }}
+
+    {{-- alerts --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if (session('error'))
+                Swal.fire({
+                    title: 'Server Error',
+                    icon: 'error',
+                    text: 'Someting wrong, Pls Try Again!'
+                });
+            @endif
+
+            @if (session('success'))
+                Swal.fire({
+                    title: 'Success',
+                    icon: 'success',
+                    text: `{{session('success')}}`
+                });
+            @endif
+        });
+    </script>
 </body>
 
 </html>
