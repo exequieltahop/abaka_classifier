@@ -17,4 +17,5 @@ class HomeController extends Controller
     public function index(): View {
         return view('pages.guest.home.index');
     }
+
 }

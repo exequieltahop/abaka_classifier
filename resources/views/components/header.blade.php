@@ -9,36 +9,45 @@
             </button>
 
             {{-- brand --}}
-            <span class="text-black-200 font-bold text-violet-900 uppercase block sm:hidden">Abaca Classification System</span>
-            <a href="{{route('home')}}" class="text-black-200 font-bold text-violet-900 uppercase hidden sm:block">ACS</a>
+            <span class="text-black-200 font-bold text-violet-900 uppercase block sm:hidden">Abaca Classification
+                System</span>
+            <a href="{{ route('home') }}" class="text-black-200 font-bold text-violet-900 uppercase hidden sm:block">
+                <img src="{{ asset('logos/logo.jfif') }}" alt="img" style="height: 35px">
+            </a>
 
             {{-- nav --}}
             <nav class="hidden sm:flex align-center space-x-4">
-                <a href="{{route('home')}}" class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'home' ? 'text-white bg-violet-900' : 'text-primary' }}">
-                    <x-icon type="home"/>
+                <a href="{{ route('home') }}"
+                    class="block px-5 py-1 font-medium rounded-sm {{ Route::currentRouteName() == 'home' ? 'text-white bg-violet-900' : 'text-primary' }}">
+                    <x-icon type="home" />
                     Home
                 </a>
                 @guest
-                    <a href="{{route('signin')}}"
-                        class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'signin' ? 'text-white bg-violet-900' : 'text-primary' }}">
-                        <x-icon type="sign-in"/>
+                    <a href="{{ route('signin') }}"
+                        class="block px-5 py-1 font-medium rounded-sm {{ Route::currentRouteName() == 'signin' ? 'text-white bg-violet-900' : 'text-primary' }}">
+                        <x-icon type="sign-in" />
                         Sign In
                     </a>
                 @endguest
 
                 @auth
-                    <a href="{{route('logs.index')}}"
-                        class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'logs.index' ? 'text-white bg-violet-900' : 'text-primary' }}">
-                        <x-icon type="history"/>
-                        Logs
+                    <a href="{{ route('inferenced-images.index') }}"
+                        class="block px-5 py-1 font-medium rounded-sm {{ str_contains(Route::currentRouteName(), 'inferenced-images') ? 'text-white bg-violet-900' : 'text-primary' }}">
+                        <x-icon type="history" />
+                        Inferenced Images
                     </a>
 
-                    <a href="{{route('signout')}}"
-                        class="block px-5 py-1 font-medium rounded-sm text-primary">
-                        <x-icon type="sign-out"/>
+                    <a href="{{ route('signout') }}" class="block px-5 py-1 font-medium rounded-sm text-primary">
+                        <x-icon type="sign-out" />
                         Sign out
                     </a>
                 @endauth
+
+                <button type="button" class="install-pwa block px-5 py-1 font-medium rounded-sm text-primary hidden">
+                    <x-icon type="download text-primary" />
+                    Install
+                </button>
+
             </nav>
         </div>
     </div>
@@ -46,28 +55,34 @@
     {{-- mobile view --}}
     <el-disclosure id="mobile-menu" hidden class="block sm:hidden px-3 bg-white m-0 shadow-lg absolute z-50 w-full">
         <div class="space-y-1 py-2">
-            <a href="{{route('home')}}" class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'home' ? 'text-white bg-violet-900' : 'text-primary'}}">
-                <x-icon type="home"/>
+            <a href="{{ route('home') }}"
+                class="block px-5 py-1 font-medium rounded-sm {{ Route::currentRouteName() == 'home' ? 'text-white bg-violet-900' : 'text-primary' }}">
+                <x-icon type="home" />
                 Home
             </a>
 
             @guest
-                <a href="{{route('signin')}}" class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'signin' ? 'text-white bg-violet-900' : 'text-primary'}}">
-                    <x-icon type="sign-in"/>
+                <a href="{{ route('signin') }}"
+                    class="block px-5 py-1 font-medium rounded-sm {{ Route::currentRouteName() == 'signin' ? 'text-white bg-violet-900' : 'text-primary' }}">
+                    <x-icon type="sign-in" />
                     Sign In
                 </a>
             @endguest
             @auth
-                <a href="{{route('logs.index')}}"
-                    class="block px-5 py-1 font-medium rounded-sm {{Route::currentRouteName() == 'logs.index' ? 'text-white bg-violet-900' : 'text-primary'}}">
-                    <x-icon type="history"/>
-                    Logs
+                <a href="{{ route('inferenced-images.index') }}"
+                    class="block px-5 py-1 font-medium rounded-sm {{ str_contains(Route::currentRouteName(), 'inferenced-images') ? 'text-white bg-violet-900' : 'text-primary' }}">
+                    <x-icon type="history" />
+                    Inferenced Images
                 </a>
-                <a href="{{route('signout')}}" class="block px-5 py-1 font-medium rounded-sm text-primary">
-                    <x-icon type="sign-out"/>
+                <a href="{{ route('signout') }}" class="block px-5 py-1 font-medium rounded-sm text-primary">
+                    <x-icon type="sign-out" />
                     Sign Out
                 </a>
             @endauth
+            <button type="button" class="install-pwa block px-5 py-1 font-medium rounded-sm text-primary hidden">
+                <x-icon type="download text-primary" />
+                Install
+            </button>
         </div>
     </el-disclosure>
 </header>

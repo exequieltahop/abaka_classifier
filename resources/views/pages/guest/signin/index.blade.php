@@ -77,9 +77,6 @@
                         body: new FormData(form)
                     });
 
-                    console.log(response.status);
-
-
                     // check status code
                     if(response.status == 500){
                         throw new Error("");
@@ -149,8 +146,6 @@
                     e.target.classList.add('fa-eye-slash');
                     password_input.type = 'password';
                 }
-
-
             });
 
         }

@@ -49,8 +49,10 @@
 
             const modelBaseURL = "{{ asset('web_model/') }}/";
             let model, maxPredictions;
+            let lastCapturedFile = null;
+            let topPrediction = null;
 
-            // ✅ Load the Teachable Machine model
+            // Load Teachable Machine model
             async function loadModel() {
                 const modelURL = modelBaseURL + "model.json";
                 const metadataURL = modelBaseURL + "metadata.json";
@@ -60,30 +62,16 @@
 
             await loadModel();
 
-            // ✅ Camera Access Handler
+            // ---------- CAMERA FIX ----------
             async function startCamera() {
                 try {
-                    // Check support
-                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                        alert("Camera not supported on this browser.");
-                        return;
-                    }
-
-                    // Check permission state first
-                    const permissionStatus = await navigator.permissions.query({ name: "camera" }).catch(() => null);
-
-                    if (permissionStatus && permissionStatus.state === "denied") {
-                        alert("Camera permission is denied. Please enable it in your browser settings.");
-                        return;
-                    }
-
-                    if (permissionStatus && permissionStatus.state === "prompt") {
-                        alert("Please allow camera access when prompted.");
-                    }
-
-                    // Try to open camera
+                    // Use back camera IF available, fallback if not
                     const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: "environment" },
+                        video: {
+                            facingMode: {
+                                ideal: "environment"
+                            }
+                        },
                         audio: false
                     });
 
@@ -93,12 +81,18 @@
                 } catch (err) {
                     console.error("Camera error:", err);
 
-                    if (err.name === "NotAllowedError") {
-                        alert("Camera access denied. Please allow permission in your browser settings.");
+                    if (err.name === "NotReadableError") {
+                        alert(
+                            "Camera is currently in use by another app. Close Messenger/Zoom/Camera app and try again."
+                        );
+                    } else if (err.name === "NotAllowedError") {
+                        alert("Camera permission denied. Please enable it in browser site settings.");
                     } else if (err.name === "NotFoundError") {
-                        alert("No camera device found on this device.");
+                        alert("No camera detected on this device.");
+                    } else if (err.name === "OverconstrainedError") {
+                        alert("Requested camera not available. Device has no back camera.");
                     } else {
-                        alert("Unable to access camera: " + err.message);
+                        alert("Camera error: " + err.message);
                     }
                 }
             }
@@ -111,10 +105,10 @@
                 }
             }
 
-            // ✅ Take picture and classify
+            // -------- TAKE PICTURE FROM CAMERA --------
             takePicBtn.addEventListener("click", async () => {
                 if (!video.srcObject) {
-                    alert("Camera not started yet!");
+                    alert("Camera not started!");
                     return;
                 }
 
@@ -127,37 +121,84 @@
                 imgPreview.classList.remove("hidden");
                 imgElement.src = canvas.toDataURL("image/png");
 
-                await predict(imgElement, predicted_class);
+                // convert canvas to file
+                canvas.toBlob(async (blob) => {
+                    lastCapturedFile = new File([blob], "captured.png", {
+                        type: "image/png"
+                    });
+
+                    await predict(imgElement, predicted_class, lastCapturedFile);
+                    // await logInferenceImage(lastCapturedFile, topPrediction.className,
+                    //     topPrediction.probability);
+                }, "image/png");
             });
 
+            // -------- HANDLE UPLOAD IMAGE --------
             document.getElementById("upload-img").addEventListener("change", async (event) => {
                 const file = event.target.files[0];
-                if (!file) {
-                    imgPreview.classList.add("hidden");
-                    predicted_class.textContent = "Class Predicted: ";
-                    return;
-                }
+                if (!file) return;
+
+                lastCapturedFile = file;
+
                 imgPreview.classList.remove("hidden");
-                imgElement.src = window.URL.createObjectURL(file);
+                imgElement.src = URL.createObjectURL(file);
+
                 imgElement.onload = async () => {
-                    await predict(imgElement, predicted_class);
+                    await predict(imgElement, predicted_class, lastCapturedFile);
+                    // await logInferenceImage(lastCapturedFile, topPrediction.className,
+                    //     topPrediction.probability);
                 };
             });
 
-            async function predict(image, predicted_class) {
+            // -------- PREDICTION --------
+            async function predict(image, predicted_class_el, lastCapturedFile) {
                 const prediction = await model.predict(image);
-                let topClass = prediction[0];
-                for (let p of prediction) {
-                    if (p.probability > topClass.probability) topClass = p;
+
+                topPrediction = prediction.reduce((best, p) =>
+                    p.probability > best.probability ? p : best
+                );
+
+                if (topPrediction.probability >= 0.5) {
+                    predicted_class_el.textContent =
+                        `Class Predicted: ${topPrediction.className} - ${(topPrediction.probability * 100).toFixed(2)}%`;
+
+                    await logInferenceImage(lastCapturedFile, topPrediction.className, (topPrediction.probability * 100).toFixed(2));
+                } else {
+                    predicted_class_el.textContent = "Image Not Abaca";
+                    Swal.fire({
+                        title: 'Image Not Abaca',
+                        icon: 'warning',
+                        text: 'Image Class Probability is lower than 90%, image unclassified'
+                    });
                 }
-                predicted_class.textContent = `Class Predicted: ${topClass.className}`;
             }
 
-            // ✅ Start camera on load
+            // Start camera on page load
             startCamera();
-
-            // Stop camera when leaving page
             window.addEventListener("beforeunload", stopCamera);
         });
+
+        // -------- SEND IMAGE & DATA TO SERVER --------
+        const logInferenceImage = async (file, className, conf) => {
+            try {
+                const formData = new FormData();
+
+                formData.append("image", file);
+                formData.append("class", className);
+                formData.append("probabilities", conf);
+
+
+                const response = await axios.post("/log-inference-image", formData, {
+                    headers: {
+                        "X-CSRF-TOKEN": window.token,
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json'
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        };
     </script>
+
 </x-guest-layout>
