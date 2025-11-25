@@ -26,19 +26,22 @@
                                     <ul id="statusDropdownMenu"
                                         class="absolute left-0 mt-2 bg-white shadow-lg rounded border hidden z-50">
                                         <li>
-                                            <a href="/inferenced-images" class="block px-3 py-2 text-blue-300 hover:bg-gray-100 ">
+                                            <a href="/inferenced-images"
+                                                class="block px-3 py-2 text-blue-300 hover:bg-gray-100 ">
                                                 <i class="fa-solid fa-layer-group"></i>
                                                 All
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/inferenced-images?status={{urlencode(2)}}" class="block px-3 py-2 text-green-500 hover:bg-gray-100 ">
+                                            <a href="/inferenced-images?status={{ urlencode(2) }}"
+                                                class="block px-3 py-2 text-green-500 hover:bg-gray-100 ">
                                                 <i class="fa-solid fa-check"></i>
                                                 Validated
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/inferenced-images?status={{urlencode(1)}}" class="block px-3 py-2 text-gray-500 hover:bg-gray-100 ">
+                                            <a href="/inferenced-images?status={{ urlencode(1) }}"
+                                                class="block px-3 py-2 text-gray-500 hover:bg-gray-100 ">
                                                 <i class="fa-solid fa-x"></i>
                                                 Unvalidated
                                             </a>
@@ -56,7 +59,7 @@
                             <tr class="hover:bg-gray-100">
                                 <td class="border border-t-0 border-l-0 border-r-0 p-1 w-1">
                                     <div class="relative flex align-items gap-2">
-                                        <a href="{{route('inferenced-images.show', ['inferenced_image' => urlencode($item->encrypted_id)])}}"
+                                        <a href="{{ route('inferenced-images.show', ['inferenced_image' => urlencode($item->encrypted_id)]) }}"
                                             class="block px-4 py-2 rounded bg-violet-800 text-white">
                                             <i class="fa fa-eye"></i> View
                                         </a>
@@ -86,11 +89,16 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->system_predicted_class }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->class_probability }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->created_at->format('F j, Y | h:i:s A') }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{$item->status == 1 ? "Unverified" : "Verified"}}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->expert_validation_string_format }}</td>
+                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                    {{ $item->system_predicted_class }}</td>
+                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->class_probability }}
+                                </td>
+                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                    {{ $item->created_at->format('F j, Y | h:i:s A') }}</td>
+                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                    {{ $item->status == 1 ? 'Unverified' : 'Verified' }}</td>
+                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                    {{ $item->expert_validation_string_format }}</td>
                                 <td class="border border-t-0 border-l-0 border-r-0 p-1">
                                     {{ $item->updated_at == $item->created_at ? '' : $item->updated_at->format('F j, Y h:i:s A') }}
                                 </td>
@@ -118,11 +126,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle dropdown visibility
-            function toggleDropdown(button) {
-                const menu = button.nextElementSibling;
-                menu.classList.toggle('hidden');
-            }
+
 
             // Close dropdown if clicked outside
             window.addEventListener('click', async function(e) {
@@ -280,6 +284,13 @@
             document.addEventListener("click", () => {
                 menu.classList.add("hidden");
             });
+
         });
+
+        // Toggle dropdown visibility
+        function toggleDropdown(button) {
+            const menu = button.nextElementSibling;
+            menu.classList.toggle('hidden');
+        }
     </script>
 </x-auth-layout>
