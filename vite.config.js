@@ -7,7 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/pwa-install.js'],
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/pwa-install.js', 'resources/js/home.js'],
             refresh: true,
         }),
         tailwindcss(),
@@ -29,20 +29,31 @@ export default defineConfig({
             },
             workbox: {
                 runtimeCaching: [
+
                     {
-                        urlPattern: /^\/.*/, // cache SPA routes
+                        urlPattern: /^\/.*/,
                         handler: 'NetworkFirst',
                         options: {
                             cacheName: 'html-cache',
                             expiration: { maxEntries: 50, maxAgeSeconds: 24 * 60 * 60 }
                         }
                     },
+
                     {
                         urlPattern: /\.(?:js|css|png|jpg|jpeg|svg|woff2?)$/,
                         handler: 'CacheFirst',
                         options: {
                             cacheName: 'asset-cache',
                             expiration: { maxEntries: 100, maxAgeSeconds: 7 * 24 * 60 * 60 }
+                        }
+                    },
+
+                    {
+                        urlPattern: /\/web_model\/.*\.(json|bin)$/i,
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'model-cache',
+                            expiration: { maxEntries: 10, maxAgeSeconds: 30 * 24 * 60 * 60 }
                         }
                     }
                 ]

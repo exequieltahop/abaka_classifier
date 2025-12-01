@@ -11,8 +11,8 @@ class SignInController extends Controller
 {
     /**
      * This return a view of sign in page
-     * 
-     * @return 
+     *
+     * @return
      */
     public function index() {
         return view('pages.guest.signin.index');
@@ -23,12 +23,12 @@ class SignInController extends Controller
 
         // validate
         $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required'],
             'password' => ['required', 'min:8']
         ]);
 
         // if failed to authenticate then response 401
-        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->filled('remember_me'))){
+        if(!Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->filled('remember_me'))){
             return response(null, 401);
         }
 

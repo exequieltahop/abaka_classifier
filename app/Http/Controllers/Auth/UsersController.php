@@ -26,7 +26,7 @@ class UsersController extends Controller
         if (!empty($sort_name)) $query->orderBy('name', $sort_name);
         if (!empty($search)) $query->where(function ($q) use ($search) {
             return $q->where('name', 'like', "%$search%")
-                ->OrWhere('email', 'like', "%$search%");
+                ->OrWhere('username', 'like', "%$search%");
         });
 
         $data = $query->paginate(15)->withQueryString();
@@ -55,13 +55,13 @@ class UsersController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'min:8']
+            'username' => ['required', 'unique:users,username'],
+            'password' => ['required', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'min:8']
         ]);
 
         $create = User::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => 2
         ]);
@@ -114,22 +114,22 @@ class UsersController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'email', "unique:users,email,$decrypted_id"],
-            'new_password' => ['nullable', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'min:8']
+            'username' => ['required', "unique:users,username,$decrypted_id"],
+            'password' => ['nullable', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'min:8']
         ]);
 
         $user = User::findOrFail($decrypted_id);
 
-        if ($request->filled('new_password')) {
+        if ($request->filled('password')) {
             $update = $user->update([
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
                 'password' => Hash::make($request->new_password)
             ]);
         } else {
             $update = $user->update([
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
             ]);
         }
 

@@ -8,10 +8,10 @@
                 <fieldset>
                     <legend class="text-primary font-medium text-2xl mb-2">Sign In</legend>
 
-                    {{-- email --}}
+                    {{-- username --}}
                     <div class="mb-3">
-                        <label for="email" class="font-medium text-primary block">Email</label>
-                        <input type="email" name="email" id="email" class="block text-base w-full p-[0.5em] text-primary placeholder:text-primary border border-violet-800 focus:border-violet-800 focus:outline-none focus:ring-2 rounded-sm" placeholder="email@example.com" autocomplete="email">
+                        <label for="username" class="font-medium text-primary block">Username</label>
+                        <input type="text" name="username" id="username" class="block text-base w-full p-[0.5em] text-primary placeholder:text-primary border border-violet-800 focus:border-violet-800 focus:outline-none focus:ring-2 rounded-sm" placeholder="Username" autocomplete="username">
                     </div>
 
                     {{-- password --}}

@@ -18,7 +18,7 @@
                     <form action="{{ route('users.index') }}" method="GET" class="flex align-items gap-2">
                         <input type="search" name="search" id="search"
                             class="text-sm p-1 border rounded-sm px-2 w-full max-w-[300px] border border-violet-800 text-violet-800 font-medium"
-                            placeholder="search by name or email">
+                            placeholder="search by name or username">
                         <button type="submit" class="">
                             <i class="fa-solid fa-search"></i>
                         </button>
@@ -51,7 +51,7 @@
                                     @endif
                                 @endif
                             </th>
-                            <th class="px-2">Email</th>
+                            <th class="px-2">Username</th>
                             <th class="p-2">
                                 @if (empty(urldecode(request('sort_date'))))
                                     <a href="{{ route('users.index', ['sort_date' => urlencode('desc')]) }}">
@@ -95,7 +95,7 @@
                                     {{ $item->name }}
                                 </td>
                                 <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->email }}
+                                    {{ $item->username }}
                                 </td>
                                 <td class="border border-t-0 border-l-0 border-r-0 p-1">
                                     {{ $item->created_at->format('F j, Y | h:i:s A') }}

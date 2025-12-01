@@ -33,11 +33,11 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="font-medium text-violet-800">Email</label>
-                            <input type="email" name="email" id="email"
-                                class="w-full border border-violet-800 p-2 text-violet-800"
-                                placeholder="email@example.com" value="{{ old('email') }}">
-                            @error('email')
+                            <label for="username" class="font-medium text-violet-800">Usernamme</label>
+                            <input type="text" name="username" id="username"
+                                class="w-full border border-violet-800 p-2 text-violet-800" placeholder="Username"
+                                value="{{ old('username') }}">
+                            @error('username')
                                 <small class="text-red-700 font-medium">{{ $message }}</small>
                             @enderror
                         </div>
@@ -45,11 +45,28 @@
                             <label for="password" class="font-medium text-violet-800">Password</label>
                             <input type="password" name="password" id="password"
                                 class="w-full border border-violet-800 p-2 text-violet-800"
-                                placeholder="Contains 1 uppercase, 1 lowercase, 1 number  min 8 char">
+                                placeholder="Password (Contains 1 uppercase, 1 lowercase, 1 number  min 8 char)">
                             @error('password')
                                 <small class="text-red-700 font-medium">{{ $message }}</small>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="font-medium text-violet-800">Password
+                                Confirmation</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                class="w-full border border-violet-800 p-2 text-violet-800"
+                                placeholder="Password Confirmation (Contains 1 uppercase, 1 lowercase, 1 number  min 8 char)">
+                            @error('password_confirmation')
+                                <small class="text-red-700 font-medium">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 flex align-center gap-2 text-nowrap">
+                            <input type="checkbox"  id="show_password"
+                                class="border border-violet-800 p-2 text-violet-800">
+                            <label for="show_password" class="font-medium text-violet-800">Show Password</label>
+                        </div>
+
                         <div class="flex justify-end">
                             <button
                                 class="bg-violet-800 text-white px-2 py-1 rounded-sm cursor-pointer hover:bg-violet-600">
@@ -62,5 +79,30 @@
             </div>
         </div>
     </div>
+    {{-- script --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showPassword();
+        });
 
+        // show password
+        const showPassword = () => {
+            const show_password_checkbox = document.getElementById('show_password');
+            const passwords = document.querySelectorAll('input[type="password"]');
+
+            show_password_checkbox.addEventListener('change', function(e) {
+                const target = e.target;
+
+                if (target.checked) {
+                    passwords.forEach(item => {
+                        item.type = "text";
+                    });
+                } else {
+                    passwords.forEach(item => {
+                        item.type = "password";
+                    });
+                }
+            });
+        }
+    </script>
 </x-auth-layout>
