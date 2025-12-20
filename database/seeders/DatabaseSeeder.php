@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'username' => 'admin',
             'password' => Hash::make('adminpassword'),
+            'brgy' => 'sample brgy',
             'role' => 1
         ]);
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Expert',
             'username' => 'expert',
             'password' => Hash::make('expertpassword'),
+            'brgy' => 'sample brgy',
             'role' => 2
         ]);
     }
