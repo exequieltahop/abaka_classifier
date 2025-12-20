@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('inferenced_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->longText('image_path');
             $table->longText('img_file_name');
             $table->unsignedInteger('status')->default(1);

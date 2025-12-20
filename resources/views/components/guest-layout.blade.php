@@ -1,5 +1,5 @@
 <x-app-layout title="{{$title}}">
-    <x-header/>
+    {{-- <x-header/> --}}
     <main class="">
         {{$slot}}
     </main>

@@ -1,4 +1,4 @@
-<x-guest-layout title="Home">
+<x-auth-layout title="Home">
     <section class="container mx-auto">
         <div class="block space-y-3 p-3">
 
@@ -42,4 +42,4 @@
 
     @vite('resources/js/home.js')
 
-</x-guest-layout>
+</x-auth-layout>

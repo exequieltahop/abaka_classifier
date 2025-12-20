@@ -14,6 +14,7 @@ class InferencedImage extends Model
      *  4 - not accurate
      */
     protected $fillable = [
+        'user_id',
         'image_path',
         'img_file_name',
         'status',
