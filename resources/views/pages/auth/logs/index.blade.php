@@ -1,8 +1,14 @@
 <x-auth-layout title="Logs">
     <div class="container mx-auto px-3 mt-5">
+
+        <a href="{{ url()->previous() }}" class="block w-fit bg-violet-900 text-white hover:bg-violet-500 px-3 py-1 rounded-sm mb-3">
+            <x-icon type="arrow-left"/>
+            back
+        </a>
+
         <div class="w-full shadow-xl rounded-sm border border-gray-300">
-            <div class="border border-x-0 border-t-0 border-b-gray-300 p-3">
-                <h5 class="text-primary font-medium">
+            <div class="border border-x-0 border-t-0 border-b-gray-300 p-3 bg-violet-900">
+                <h5 class="font-medium text-white">
                     <x-icon type="history" />
                     Logs
                 </h5>

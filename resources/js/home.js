@@ -242,6 +242,163 @@ document.addEventListener("DOMContentLoaded", async function () {
     window.addEventListener("beforeunload", stopCamera);
 
     renderEducationalInfo();
+
+    /*
+    carousel
+    */
+
+    const ABACA_CLASS_DESCRIPTIONS = {
+        SS2: {
+            Name: "Spindle-/Machine-Stripped S2",
+            Quality: "Excellent",
+            Meaning: "Machine-stripped version of S2 (\"S-S2\"), very fine and clean",
+            TypicalUses: "Currency paper, premium filters, specialty paper, high-quality cordage",
+            Description: "Same characteristics as S2 but processed by spindle/machine. Clean, fine, light-colored; excellent stripping consistency"
+        },
+
+        S2: {
+            Name: "",
+            Quality: "Excellent",
+            Meaning: "\"Streaky Two\" — very fine, clean, light ivory fiber",
+            TypicalUses: "Currency paper, tea bags, specialty paper, premium cordage",
+            Description: "Fiber size: 0.20–0.50 mm, Ivory white to very light brown/red streaks, Texture: Soft, very fine; Comes from inner/middle leaf sheaths"
+        },
+
+        SS3: {
+            Name: "Spindle-/Machine-Stripped S3",
+            Quality: "Excellent",
+            Meaning: "Machine-stripped version of S3 (\"S-S3\"), slightly darker excellent grade",
+            TypicalUses: "Filters, premium industrial paper, woven products",
+            Description: "Same characteristics as S3 but processed by machine; excellent-quality fiber with more consistent strip"
+        },
+
+        S3: {
+            Name: "",
+            Quality: "Excellent",
+            Meaning: "\"Streaky Three\" — fine but slightly darker than S2",
+            TypicalUses: "Filters, fine papers, high-quality weaving",
+            Description: "Fiber size: 0.20–0.50 mm; Color: Reddish, purple, or darker brown tones; Comes from outer leaf sheaths"
+        },
+
+        I: {
+            Name: "Current Grade",
+            Quality: "Good",
+            Meaning: "Medium color & fineness",
+            TypicalUses: "Rope, industrial paper, geotextiles",
+            Description: "Fiber size: 0.51–0.99 mm; Color: Very light to light brown; Texture: Medium soft; Good stripping quality"
+        },
+
+        G: {
+            Name: "Soft Seconds",
+            Quality: "Good",
+            Meaning: "Light brown, medium-soft good fiber",
+            TypicalUses: "Rope/twine, fiber composites",
+            Description: "Fiber size: 0.51–0.99 mm; Color: Dingy white, light green, dull brown; Same leaf sheath origin as S2; Good stripping quality"
+        },
+
+        T: {
+            Name: "Tow",
+            Quality: "Lowest",
+            Meaning: "Short, tangled, broken fibers",
+            TypicalUses: "Mats, stuffing, pulp filler, coarse brushes",
+            Description: "Fiber length: < 60 cm; Made of broken, tip-cut, or tangled residues; Classified as residual grade"
+        },
+
+        JK: {
+            Name: "Seconds",
+            Quality: "Fair",
+            Meaning: "Coarse, yellow-brown fiber",
+            TypicalUses: "Sacks, kraft paper, lower-grade ropes",
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dull brown/yellow, sometimes green streaks; Fair stripping; From inner/outer leaf sheaths"
+        },
+
+        M1: {
+            Name: "Medium Brown",
+            Quality: "Fair",
+            Meaning: "Dark, coarse fiber",
+            TypicalUses: "Agricultural twine, heavy ropes, low-grade pulp",
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dark brown to almost black; Fair stripping; Usually from outer leaf sheaths"
+        },
+
+        Y2: {
+            Name: "",
+            Quality: "Low",
+            Meaning: "Weak, stained, or residual fiber",
+            TypicalUses: "Brown packaging paper, stuffing, low-strength rope",
+            Description: "Residual fibers from grades H, JK, M1; Discolored or contaminated; Lower strength and stiffness"
+        }
+    };
+
+
+    // Carousel setup
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let carousel = document.getElementById("carousel");
+    let autoSlideInterval = null;
+
+    // Create cards for carousel
+    carousel.innerHTML = "";
+
+    for (const [code, item] of Object.entries(ABACA_CLASS_DESCRIPTIONS)) {
+        const card = document.createElement("div");
+        card.className = "bg-white w-full flex-shrink-0 border border-gray-200 shadow-md mr-4"; // w-full ensures full slide
+        card.innerHTML = `
+        <span class="block px-5 py-1 bg-gradient-to-r from-violet-900 via-violet-700 to-violet-500 text-white font-bold text-lg rounded-tl-md rounded-tr-md m-0 h-fit">
+            ${code}
+        </span>
+        <div class="flex justify-center pb-4 border-b border-gray-300 pt-5">
+            <img src="/images/logo.png" alt="img" class="w-full max-w-[200px]" style="aspect-ratio:1">
+        </div>
+        <div class="p-4">
+            <div class="mt-2">
+                <small class="text-sm font-bold text-white block w-fit rounded-2xl bg-blue-400 px-3 py-1 mb-4">Description</small>
+                <p class="text-justify mt-1 block bg-gray-100 rounded-md p-3" style="text-indent: 0.5in ">
+                    ${item.Description}
+                </p>
+            </div>
+        </div>
+    `;
+        carousel.appendChild(card);
+    }
+
+    totalSlides = carousel.children.length;
+
+    // Carousel functions
+    function updateCarousel() {
+        if (!carousel) return;
+        const card = carousel.children[0];
+        const style = window.getComputedStyle(card);
+        const marginRight = parseInt(style.marginRight);
+        const cardWidth = card.offsetWidth + marginRight;
+
+        carousel.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+    }
+
+    function startAutoSlide(interval = 5000) {
+        stopAutoSlide();
+        autoSlideInterval = setInterval(nextSlide, interval);
+    }
+
+    function stopAutoSlide() {
+        if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    // Button events
+    document.getElementById("next-btn").addEventListener("click", nextSlide);
+    document.getElementById("prev-btn").addEventListener("click", prevSlide);
+
+    updateCarousel();
+    startAutoSlide();
 });
 
 function getClassDescription(abacaClass) {
@@ -434,16 +591,22 @@ const renderEducationalInfo = () => {
     };
 
     const parent = document.getElementById("abaca-edu");
-    
-    if(parent){
+
+    if (parent) {
         parent.innerHTML = "";
-    
+
         for (const [code, item] of Object.entries(ABACA_CLASS_DESCRIPTIONS)) {
             const card = document.createElement("div");
-            card.className = "bg-white grid basis-[24%] min-w-[300px] border border-gray-200 shadow-md";
-    
+            card.className = "bg-white grid basis-[20%] min-w-[300px] border border-gray-200 shadow-md edu-card";
+
             card.innerHTML = `
-                <span class="block px-5 py-1 bg-violet-900 text-white font-bold text-lg rounded-tl-md rounded-tr-md m-0 h-fit">${code}</span>
+                <span class="block px-5 py-1 
+                    bg-gradient-to-r from-violet-900 via-violet-700 to-violet-500
+                    text-white font-bold text-lg
+                    rounded-tl-md rounded-tr-md m-0 h-fit">
+                    ${code}
+                </span>
+
     
                 <div class="flex justify-center pb-4 border border-l-0 border-r-0 border-t-0 border-b-gray-300 pt-5">
                     <img src="/images/logo.png" alt="img" class="w-full max-w-[200px]" style="aspect-ratio: 1">
@@ -460,7 +623,7 @@ const renderEducationalInfo = () => {
                     </div>
                 </div>
             `;
-    
+
             parent.appendChild(card);
         }
     }

@@ -2,6 +2,34 @@
     <div class="flex items-center h-full px-3">
         <div class="container mx-auto flex items-center justify-center lg:justify-start space-x-3 relative">
 
+            <x-icon type="user-circle text-white text-4xl absolute top-1/2 right-0 transform -translate-y-1/2 cursor-pointer user-toggler"/>
+            <a href="" class="text-white absolute top-1/2 right-[65px] transform -translate-y-1/2 cursor-pointer">
+                <x-icon type="bell " title="Notifications"/>
+            </a>
+            <small class="absolute top-[5px] right-[45px] block bg-red-500 text-white p-1 rounded-xl">
+                {{
+                    auth()->user()->unreadNotifications->count()
+                }}
+            </small>
+
+            {{-- dropdown --}}
+            <div class="absolute top-[100%] right-0 hidden border border-gray-200" id="drop">
+                <ul class="bg-violet-900 text-white">
+                    <li class="">
+                        <a href="" class="block p-3">
+                            <x-icon type="user"/>
+                            Account Setting
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{{route('signout')}}" class="block p-3">
+                            <x-icon type="arrow-left"/>
+                            Sign Out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             {{-- mobile nav view toggler --}}
             <button type="button" command="--toggle" commandfor="mobile-menu"
                 class="block lg:hidden absolute inset-y-0 left-0">
@@ -46,10 +74,6 @@
                         Inferenced Images
                     </a>
 
-                    <a href="{{ route('signout') }}" class="block px-5 py-1 text-white rounded-sm  ">
-                        <x-icon type="sign-out" />
-                        Sign out
-                    </a>
                 @endauth
 
                 <button type="button" class="install-pwa block px-5 py-1 text-white rounded-sm   hidden">
@@ -102,4 +126,28 @@
             </button>
         </div>
     </el-disclosure>
+
 </header>
+
+{{-- script --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        userDropdown();
+    });
+
+    // show hide user dropdown
+    const userDropdown = ()=>{
+        const toggler = document.querySelector('.user-toggler');
+
+        toggler.addEventListener('click', function(e){
+            e.stopImmediatePropagation();
+            
+            const dropdown = document.getElementById('drop');
+
+            if(dropdown.classList.contains('hidden')) dropdown.classList.remove('hidden');
+            else dropdown.classList.add('hidden');
+            
+        });
+    }
+</script>
+    
