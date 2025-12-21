@@ -16,10 +16,17 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * role
+     * 1 - admin
+     * 2 - expert
+     * 3 - regular user
+     * 
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'fname',
+        'mname',
+        'lname',
         'username',
         'password',
         'role',

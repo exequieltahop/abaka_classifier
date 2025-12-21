@@ -1,6 +1,6 @@
 <x-auth-layout title="Home">
     <section class="container mx-auto">
-        <div class="block space-y-3 p-3">
+        <div class="block space-y-3">
 
             {{-- open camera --}}
             <video src="" autoplay playsinline id="video"
@@ -37,6 +37,19 @@
                 </form>
 
             </div>
+        </div>
+    </section>
+
+    {{-- educational purpose --}}
+    <section class="container mx-auto bg-white border border-gray-300 shadow mt-[1em] rounded-md">
+        <div class="bg-violet-900 p-4 rounded-tl-md rounded-tr-md">
+            <h1 class="text-white text-xl">
+                <i class="fa-solid fa-info-circle"></i>
+                Educational Purpose
+            </h1>
+        </div>
+        <div class="p-5 flex gap-2 flex-wrap justify-center" id="abaca-edu">
+            {{-- dynamic rendering --}}
         </div>
     </section>
 

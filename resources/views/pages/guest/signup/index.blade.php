@@ -1,5 +1,5 @@
 <x-guest-layout title="Sign up">
-    <div class="container-fluid"
+    <div class="container-fluid overflow-auto"
         style="
                 background-image: url({{ asset('images/signin-bg.jpg') }});
                 background-size: cover;
@@ -9,11 +9,10 @@
                 background-blend-mode: darken;
                 background-attachment: fixed;
             ">
-        <section class="container mx-auto">
+        <section class="container mx-auto ">
             <div class="flex justify-center items-center h-screen">
-                
                 {{-- form --}}
-                <form action="" id="form-signup" class="w-[90%] max-w-[550px] p-10 shadow-lg bg-white rounded-sm border border-gray-200 shadow">
+                <form action="" id="form-signup" class="w-[90%] h-[95%] max-w-[550px] p-10 shadow-lg bg-white rounded-sm border border-gray-200 shadow overflow-y-auto">
                     @csrf
                     <fieldset>
                         <legend class="text-primary font-medium text-2xl mb-5 text-center">Abaca Classification System</legend>
@@ -176,27 +175,50 @@
                         }
                     });
 
-                    Swal.fire({
-                        title: 'Success',
-                        icon: 'success',
-                        text: 'Successfully registered'
-                    });
-
                     btn.disabled = false;
+
+                    Toastify({
+                        text: "Successfully Registered an acccount",
+                        duration: 2000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", 
+                        position: "left",
+                        stopOnFocus: true,
+                        style: {
+                            background: "rgb(100, 225, 100)",
+                        },
+                    }).showToast();
+
+                    setInterval(() => {
+                        window.location.href = '/home';
+                    }, 1000);
 
                 } catch (error) {
                     console.error(error);
 
                     if(error.response.data.errors) {
-                        console.log(1);
+                        for (const [key,val] of Object.entries(error.response.data.errors)) {
+                            const error_wrapper = document.querySelector(`.error-${key}`);
+                            error_wrapper.textContent = val;
+                        }
+                        btn.disabled = false;
                         return;
                     }
 
-                    Swal.fire({
-                        title: 'Server Error',
-                        icon: 'error',
-                        text: 'Something went wrong'
-                    });
+                    Toastify({
+                        text: "Server Error, Something went wrong",
+                        duration: 2000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", 
+                        position: "left",
+                        stopOnFocus: true,
+                        style: {
+                            background: "rgb(225, 100, 100)",
+                        },
+                    }).showToast();
+
                     btn.disabled = false;
                     return;
                 }                
