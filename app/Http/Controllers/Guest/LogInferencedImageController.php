@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use App\Models\InferencedImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LogInferencedImageController extends Controller
@@ -24,6 +25,7 @@ class LogInferencedImageController extends Controller
         $img_filepath = Storage::disk('local')->putFile('inferenced-images', $request->file('image'));
 
         $create = InferencedImage::create([
+            'user_id' => Auth::user()->id,
             'image_path' => $img_filepath,
             'img_file_name' => $img_filename,
             'system_predicted_class' => $request->class,
