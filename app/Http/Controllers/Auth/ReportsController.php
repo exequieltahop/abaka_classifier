@@ -42,6 +42,7 @@ class ReportsController extends Controller
             DB::raw('COUNT(*) as total')
         )
         ->whereYear('inferenced_images.created_at', $year)
+        ->where('inferenced_images.status', 2)
         ->groupBy('users.brgy', 'inferenced_images.system_predicted_class')
         ->get();
             
