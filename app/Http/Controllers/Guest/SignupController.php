@@ -29,6 +29,7 @@ class SignupController extends Controller
      */
     public function signupProcess(Request $request): JsonResponse
     {
+        // dd($request->all());
         $request->validate([
             'fname' => 'required',
             'mname' => 'nullable',

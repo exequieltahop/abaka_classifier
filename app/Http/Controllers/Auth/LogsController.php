@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\InferencedImage;
+use App\Models\User;
+use App\Notifications\NotifyUserForValidationResultNotification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class LogsController extends Controller
@@ -16,21 +19,30 @@ class LogsController extends Controller
         $status = urldecode(request('status'));
 
         $expert_validation = [
-            '1' => "Accurate",
-            '2' => "Less Accurate",
-            '3' => "Not Accurate"
+            1 => "Accurate",
+            2 => "Less Accurate",
+            3 => "Not Accurate"
         ];
 
-        $query  = InferencedImage::orderBy('created_at', 'desc');
+        $query  = InferencedImage::join('users as u', 'inferenced_images.user_id', '=', 'u.id')
+            ->select([
+                'inferenced_images.*',
+                'u.brgy'
+            ])
+            ->orderBy('inferenced_images.created_at', 'desc');
 
-        if (!empty($status)) $query->where('status', $status);
+        if (!empty($status)) $query->where('inferenced_images.status', $status);
+
+        if (Auth::user()->role == 3) $query->where('inferenced_images.user_id', Auth::user()->id);
 
         $data = $query->paginate(15)->withQueryString();
 
         foreach ($data as $item) {
             $item->encrypted_id = Crypt::encrypt($item->id);
 
-            if ($item->status == 2) $item->expert_validation_string_format = $expert_validation[$item->expert_validation];
+            if ($item->expert_validation == 1) $item->expert_validation_string_format = $expert_validation[$item->expert_validation];
+            if ($item->expert_validation == 2) $item->expert_validation_string_format = $expert_validation[$item->expert_validation];
+            if ($item->expert_validation == 3) $item->expert_validation_string_format = $expert_validation[$item->expert_validation];
         }
 
         return view('pages.auth.logs.index', [
@@ -49,11 +61,25 @@ class LogsController extends Controller
 
         $update = match ($request->type) {
             1 => $row->update(['status' => 2, 'expert_validation' => $request->type]),
-            2 => $row->update(['status' => 2, 'expert_validation' => $request->type]),
-            3 => $row->update(['status' => 2, 'expert_validation' => $request->type])
+            2 => $row->update(['status' => 3, 'expert_validation' => $request->type]),
+            3 => $row->update(['status' => 4, 'expert_validation' => $request->type])
         };
 
         if (!$update) return response()->json([], 500);
+
+        $user = User::findOrFail($row->user_id);
+
+        $update_type = match ($request->type) {
+            1 => "Accurate",
+            2 => "Less Accurate",
+            3 => "Not Accurate"
+        };
+
+        $user->notify(new NotifyUserForValidationResultNotification(json_decode(json_encode([
+            'title' => 'Validation Result',
+            'description' => "Your Abaca Validation Result is $update_type",
+            'log_id' => $d_id
+        ]))));
 
         return response()->json([], 200);
     }

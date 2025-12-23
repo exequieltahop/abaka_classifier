@@ -50,7 +50,7 @@
         </section>
 
         {{-- educational purpose --}}
-        <section class="container mx-auto bg-white border border-gray-300 shadow mt-[1em] rounded-md hidden sm:block">
+        <section class="container mx-auto bg-white border border-gray-300 shadow mt-[1em] rounded-md hidden sm:block px-[1em] sm:px-0 w-[95%]">
             <div class="bg-violet-900 p-4 rounded-tl-md rounded-tr-md">
                 <h1 class="text-white text-xl">
                     <i class="fa-solid fa-info-circle"></i>

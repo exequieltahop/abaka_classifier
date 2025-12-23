@@ -7,13 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="manifest" href="/build/manifest.webmanifest" />
+    <link rel="shortcut icon" href="{{asset('/images/logo.png')}}" type="image/x-icon">
     <meta name="theme-color" content="#4D179A" />
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite('resources/js/pwa-install.js')
 </head>
 
-<body class="bg-whitesmoke">
+<body class="bg-whitesmoke relative">
     {{ $slot }}
 
     {{-- alerts --}}
@@ -31,7 +32,7 @@
                 Swal.fire({
                     title: 'Success',
                     icon: 'success',
-                    text: `{{session('success')}}`
+                    text: `{{ session('success') }}`
                 });
             @endif
         });

@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'abaca',
             'lname' => 'expert',
             'username' => 'abaca.expert',
-            'username' => 'expert',
             'password' => Hash::make('expertpassword'),
             'brgy' => 'sample brgy',
             'role' => 2
@@ -37,7 +36,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'abaca',
             'lname' => 'user',
             'username' => 'abaca.user',
-            'username' => 'user',
             'password' => Hash::make('userpassword'),
             'brgy' => 'sample brgy',
             'role' => 3

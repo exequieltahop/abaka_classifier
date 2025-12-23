@@ -14,13 +14,14 @@ class SignInController extends Controller
      *
      * @return
      */
-    public function index() {
+    public function index()
+    {
         return view('pages.guest.signin.index');
     }
 
     // process signin
-    public function processSignin(Request $request) {
-
+    public function processSignin(Request $request)
+    {
         // validate
         $request->validate([
             'username' => ['required'],
@@ -28,7 +29,7 @@ class SignInController extends Controller
         ]);
 
         // if failed to authenticate then response 401
-        if(!Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->filled('remember_me'))){
+        if (!Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->filled('remember_me'))) {
             return response(null, 401);
         }
 
@@ -37,7 +38,8 @@ class SignInController extends Controller
     }
 
     // sign ou
-    public function signout() {
+    public function signout()
+    {
         Auth::logout();
 
         return redirect()->route('home');

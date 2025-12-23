@@ -22,7 +22,7 @@
                             <th class="px-2">Class</th>
                             <th class="px-2">Probability</th>
                             @if (auth()->user()->role != 3)
-                                <th class="px-2">Barangay</th>
+                            <th class="px-2">Barangay</th>
                             @endif
                             <th class="p-2">Date Inferenced</th>
                             <th class="relative">
@@ -66,64 +66,62 @@
                     </thead>
                     <tbody class="text-nowrap">
                         @forelse ($data as $item)
-                            <tr class="hover:bg-gray-100">
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1 w-1">
-                                    <div class="relative flex align-items gap-2">
-                                        <a href="{{ route('inferenced-images.show', ['inferenced_image' => urlencode($item->encrypted_id)]) }}"
-                                            class="block px-4 py-2 rounded bg-violet-800 text-white">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                        @if (auth()->user()->role != 3)
-                                            @if ($item->status == 1)
-                                                <button onclick="toggleDropdown(this)"
-                                                    class="bg-violet-800 text-white px-2 py-1 rounded inline-flex items-center gap-1 cursor-pointer">
-                                                    <i class="fa fa-pencil"></i> Validate
-                                                </button>
+                        <tr class="hover:bg-gray-100">
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1 w-1">
+                                <div class="relative flex align-items gap-2">
+                                    <a href="{{ route('inferenced-images.show', ['inferenced_image' => urlencode($item->encrypted_id)]) }}"
+                                        class="block px-4 py-2 rounded bg-violet-800 text-white">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                    @if (auth()->user()->role != 3)
+                                    @if ($item->status == 1)
+                                    <button onclick="toggleDropdown(this)"
+                                        class="bg-violet-800 text-white px-2 py-1 rounded inline-flex items-center gap-1 cursor-pointer">
+                                        <i class="fa fa-pencil"></i> Validate
+                                    </button>
 
-                                                <!-- Dropdown menu -->
-                                                <div
-                                                    class="dropdown-menu absolute right-0 mt-1 bg-white border rounded shadow-lg hidden z-50">
-                                                    <button
-                                                        class="block cursor-pointer px-4 py-2 text-gray-600 less-accurate"
-                                                        data-id="{{ $item->encrypted_id }}">
-                                                        <i class="fa fa-less"></i> Less Accurate
-                                                    </button>
-                                                    <button
-                                                        class="block cursor-pointer px-4 py-2 text-green-600 accurate"
-                                                        data-id="{{ $item->encrypted_id }}">
-                                                        <i class="fa fa-check"></i> Accurate
-                                                    </button>
-                                                    <button
-                                                        class="block cursor-pointer px-4 py-2 text-red-600 not-accurate"
-                                                        data-id="{{ $item->encrypted_id }}">
-                                                        <i class="fa fa-x"></i> Not Accurate
-                                                    </button>
-                                                </div>
-                                            @endif
-                                        @endif
+                                    <!-- Dropdown menu -->
+                                    <div
+                                        class="dropdown-menu absolute right-0 mt-1 bg-white border rounded shadow-lg hidden z-50">
+                                        <button class="block cursor-pointer px-4 py-2 text-gray-600 less-accurate"
+                                            data-id="{{ $item->encrypted_id }}">
+                                            <i class="fa fa-less"></i> Less Accurate
+                                        </button>
+                                        <button class="block cursor-pointer px-4 py-2 text-green-600 accurate"
+                                            data-id="{{ $item->encrypted_id }}">
+                                            <i class="fa fa-check"></i> Accurate
+                                        </button>
+                                        <button class="block cursor-pointer px-4 py-2 text-red-600 not-accurate"
+                                            data-id="{{ $item->encrypted_id }}">
+                                            <i class="fa fa-x"></i> Not Accurate
+                                        </button>
                                     </div>
-                                </td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->system_predicted_class }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->class_probability }}
-                                </td>
-                                @if (auth()->user()->role != 3)
-                                    <th class="border border-t-0 border-l-0 border-r-0 p-1">Pandan</th>
-                                @endif
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->created_at->format('F j, Y | h:i:s A') }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->status == 1 ? 'Unverified' : 'Verified' }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->expert_validation_string_format }}</td>
-                                <td class="border border-t-0 border-l-0 border-r-0 p-1">
-                                    {{ $item->updated_at == $item->created_at ? '' : $item->updated_at->format('F j, Y h:i:s A') }}
-                                </td>
-                            </tr>
+                                    @endif
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                {{ $item->system_predicted_class }}</td>
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->class_probability }}
+                            </td>
+                            @if (auth()->user()->role != 3)
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">{{ $item->brgy }}</td>
+                            @endif
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                {{ $item->created_at->format('F j, Y | h:i:s A') }}</td>
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                {{ $item->status == 1 ? 'Unverified' : 'Verified' }}</td>
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">
+=                                {{ $item->expert_validation_string_format }}</td>
+                            <td class="border border-t-0 border-l-0 border-r-0 p-1">
+                                {{ $item->updated_at == $item->created_at ? '' : $item->updated_at->format('F j, Y h:i:s
+                                A') }}
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="7" class="text-center text-gray-500">--No Data--</td>
-                            </tr>
+                        <tr>
+                            <td colspan="7" class="text-center text-gray-500">--No Data--</td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -142,14 +140,13 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
+        document.addEventListener('DOMContentLoaded', function () {
 
             // Close dropdown if clicked outside
-            window.addEventListener('click', async function(e) {
+            window.addEventListener('click', async function (e) {
                 document.querySelectorAll('.dropdown-menu').forEach(menu => {
                     if (!menu.contains(e.target) && !menu.previousElementSibling.contains(e
-                            .target)) {
+                        .target)) {
                         menu.classList.add('hidden');
                     }
                 });
@@ -172,28 +169,43 @@
                             try {
                                 const response = await axios.put(
                                     `/inferenced-images/${encodeURIComponent(id)}`, {
-                                        type: 2
-                                    }, {
-                                        headers: {
-                                            'X-CSRF-TOKEN': window.token,
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json'
-                                        }
-                                    });
-                                Swal.fire({
-                                    title: 'Success',
-                                    icon: 'success',
-                                    text: 'Successfully Validated Inferenced Image'
-                                }).then(() => {
-                                    window.location.reload();
+                                    type: 2
+                                }, {
+                                    headers: {
+                                        'X-CSRF-TOKEN': window.token,
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    }
                                 });
+
+                                Toastify({
+                                    text: "Successfully Validated Inferenced Image",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(100, 225, 100)"
+                                    },
+                                }).showToast();
+
+                                window.location.reload();
                             } catch (error) {
                                 console.error(error);
-                                Swal.fire({
-                                    title: 'Server Error',
-                                    icon: 'error',
-                                    text: 'Something went wrong'
-                                });
+                                Toastify({
+                                    text: "Server Error, Something went wrong",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(225, 100, 100)"
+                                    }
+                                }).showToast();
                             }
                         }
                     });
@@ -216,35 +228,49 @@
                             try {
                                 const response = await axios.put(
                                     `/inferenced-images/${encodeURIComponent(id)}`, {
-                                        type: 1
-                                    }, {
-                                        headers: {
-                                            'X-CSRF-TOKEN': window.token,
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json'
-                                        }
-                                    });
-                                Swal.fire({
-                                    title: 'Success',
-                                    icon: 'success',
-                                    text: 'Successfully Validated Inferenced Image'
-                                }).then(() => {
-                                    window.location.reload();
+                                    type: 1
+                                }, {
+                                    headers: {
+                                        'X-CSRF-TOKEN': window.token,
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    }
                                 });
+                                Toastify({
+                                    text: "Successfully Validated Inferenced Image",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(100, 225, 100)"
+                                    },
+                                }).showToast();
+
+                                window.location.reload();
                             } catch (error) {
                                 console.error(error);
-                                Swal.fire({
-                                    title: 'Server Error',
-                                    icon: 'error',
-                                    text: 'Something went wrong'
-                                });
+                                Toastify({
+                                    text: "Server Error, Something went wrong",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(225, 100, 100)"
+                                    }
+                                }).showToast();
                                 return;
                             }
                         }
                     });
 
                 }
-                // less accurate
+                // not accurate
                 const not_accurate = e.target.closest('.not-accurate');
                 if (not_accurate) {
                     const id = not_accurate.dataset.id;
@@ -262,28 +288,42 @@
                             try {
                                 const response = await axios.put(
                                     `/inferenced-images/${encodeURIComponent(id)}`, {
-                                        type: 3
-                                    }, {
-                                        headers: {
-                                            'X-CSRF-TOKEN': window.token,
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json'
-                                        }
-                                    });
-                                Swal.fire({
-                                    title: 'Success',
-                                    icon: 'success',
-                                    text: 'Successfully Validated Inferenced Image'
-                                }).then(() => {
-                                    window.location.reload();
+                                    type: 3
+                                }, {
+                                    headers: {
+                                        'X-CSRF-TOKEN': window.token,
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    }
                                 });
+                                Toastify({
+                                    text: "Successfully Validated Inferenced Image",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(100, 225, 100)"
+                                    },
+                                }).showToast();
+
+                                window.location.reload();
                             } catch (error) {
                                 console.error(error);
-                                Swal.fire({
-                                    title: 'Server Error',
-                                    icon: 'error',
-                                    text: 'Something went wrong'
-                                });
+                                Toastify({
+                                    text: "Server Error, Something went wrong",
+                                    duration: 2000,
+                                    newWindow: true,
+                                    gravity: true,
+                                    close: true,
+                                    position: true,
+                                    stopOnFocus: true,
+                                    style: {
+                                        background: "rgb(225, 100, 100)"
+                                    }
+                                }).showToast();
                             }
                         }
                     });

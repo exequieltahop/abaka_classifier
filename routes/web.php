@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AccountSettingController;
 use App\Http\Controllers\Auth\LogsController;
+use App\Http\Controllers\Auth\NotificationsController;
+use App\Http\Controllers\Auth\ReportsController;
 use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\LogInferencedImageController;
@@ -21,6 +24,14 @@ Route::post('/log-inference-image', [LogInferencedImageController::class, 'logIm
 
 // auth
 Route::resource('/inferenced-images', LogsController::class)->middleware('is_auth');
+Route::resource("/users", UsersController::class)->middleware(['is_auth', 'is_admin']);
+Route::resource('/account-setting', AccountSettingController::class)->middleware('is_auth');
+Route::resource('/notifications', NotificationsController::class)->middleware('is_auth');
+Route::get('/user-notification-count', [NotificationsController::class, 'getUserNotificationCount'])->middleware('is_auth');
+Route::put('/set-read/{id}', [NotificationsController::class, 'setRead'])->middleware('is_auth');
+Route::resource('/reports', ReportsController::class)->middleware('is_auth');
+Route::get('/get-chart-data', [ReportsController::class, 'getChartData'])->middleware('is_auth');
+
 Route::get("/get-file", function (Request $request) {
 
     if (!$request->filled('path')) return null;
@@ -37,4 +48,3 @@ Route::get("/get-file", function (Request $request) {
         return response()->file($file, ['Content-Type' => Storage::disk('local')->mimeType($path)]);
     }
 })->name('get.file')->middleware('is_auth');
-Route::resource("/users", UsersController::class)->middleware(['is_auth', 'is_admin']);
