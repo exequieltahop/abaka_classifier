@@ -8,6 +8,7 @@ import Chart from 'chart.js/auto';
 import * as tf from "@tensorflow/tfjs";
 import * as tmImage from "@teachablemachine/image";
 
+
 window.Toastify = Toastify;
 window.Swal = Swal;
 window.Chart = Chart;

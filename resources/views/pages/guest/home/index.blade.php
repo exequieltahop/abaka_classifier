@@ -10,10 +10,20 @@
     <div class="p-4 sm:p-0">
         <section class="container mx-auto sm:p-[1em] md:p-0">
             <div class="block space-y-3">
+                <div class="w-full mx-auto mb-5 max-w-[600px] bg-gray-100 p-5 rounded shadow">
+                    <h5 class="text-sm text-red-500 font-medium mb-3">
+                        <x-icon type="info-circle" />
+                        Reminder
+                    </h5>
 
+                    <p class="text-sm text-red-500 font-medium text-justify">
+                        Please make sure when taking picture of the abaca, the distance must be between 6in - 10 in from
+                        abaca to phone
+                    </p>
+                </div>
                 {{-- open camera --}}
                 <video src="" autoplay playsinline id="video"
-                    class="block w-full border border-blue-500 h-[300px]"></video>
+                    class="block w-full border border-blue-500 h-[300px] max-w-[600px] mx-auto"></video>
 
                 {{-- img uploaded preview --}}
                 <div class="flex justify-center">
@@ -50,7 +60,8 @@
         </section>
 
         {{-- educational purpose --}}
-        <section class="container mx-auto bg-white border border-gray-300 shadow mt-[1em] rounded-md hidden sm:block px-[1em] sm:px-0 w-[95%]">
+        <section
+            class="container mx-auto bg-white border border-gray-300 shadow mt-[1em] rounded-md hidden sm:block px-[1em] sm:px-0 w-[95%]">
             <div class="bg-violet-900 p-4 rounded-tl-md rounded-tr-md">
                 <h1 class="text-white text-xl">
                     <i class="fa-solid fa-info-circle"></i>
@@ -70,13 +81,13 @@
             </div>
 
             <!-- Controls -->
-            <button
-                class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded" id="prev-btn">
+            <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
+                id="prev-btn">
                 ❮
             </button>
 
-            <button
-                class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded" id="next-btn">
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
+                id="next-btn">
                 ❯
             </button>
         </div>
