@@ -253,7 +253,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Excellent",
             Meaning: "Machine-stripped version of S2 (\"S-S2\"), very fine and clean",
             TypicalUses: "Currency paper, premium filters, specialty paper, high-quality cordage",
-            Description: "Same characteristics as S2 but processed by spindle/machine. Clean, fine, light-colored; excellent stripping consistency"
+            Description: "Same characteristics as S2 but processed by spindle/machine. Clean, fine, light-colored; excellent stripping consistency",
+            imgsrc: '/images/ss2.jpg'
         },
 
         S2: {
@@ -261,7 +262,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Excellent",
             Meaning: "\"Streaky Two\" — very fine, clean, light ivory fiber",
             TypicalUses: "Currency paper, tea bags, specialty paper, premium cordage",
-            Description: "Fiber size: 0.20–0.50 mm, Ivory white to very light brown/red streaks, Texture: Soft, very fine; Comes from inner/middle leaf sheaths"
+            Description: "Fiber size: 0.20–0.50 mm, Ivory white to very light brown/red streaks, Texture: Soft, very fine; Comes from inner/middle leaf sheaths",
+            imgsrc: '/images/s2.jpg'
         },
 
         SS3: {
@@ -269,7 +271,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Excellent",
             Meaning: "Machine-stripped version of S3 (\"S-S3\"), slightly darker excellent grade",
             TypicalUses: "Filters, premium industrial paper, woven products",
-            Description: "Same characteristics as S3 but processed by machine; excellent-quality fiber with more consistent strip"
+            Description: "Same characteristics as S3 but processed by machine; excellent-quality fiber with more consistent strip",
+            imgsrc: '/images/ss3.jpg'
         },
 
         S3: {
@@ -277,7 +280,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Excellent",
             Meaning: "\"Streaky Three\" — fine but slightly darker than S2",
             TypicalUses: "Filters, fine papers, high-quality weaving",
-            Description: "Fiber size: 0.20–0.50 mm; Color: Reddish, purple, or darker brown tones; Comes from outer leaf sheaths"
+            Description: "Fiber size: 0.20–0.50 mm; Color: Reddish, purple, or darker brown tones; Comes from outer leaf sheaths",
+            imgsrc: '/images/s3.jpg'
         },
 
         I: {
@@ -285,7 +289,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Good",
             Meaning: "Medium color & fineness",
             TypicalUses: "Rope, industrial paper, geotextiles",
-            Description: "Fiber size: 0.51–0.99 mm; Color: Very light to light brown; Texture: Medium soft; Good stripping quality"
+            Description: "Fiber size: 0.51–0.99 mm; Color: Very light to light brown; Texture: Medium soft; Good stripping quality",
+            imgsrc: '/images/i.jpg'
         },
 
         G: {
@@ -293,7 +298,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Good",
             Meaning: "Light brown, medium-soft good fiber",
             TypicalUses: "Rope/twine, fiber composites",
-            Description: "Fiber size: 0.51–0.99 mm; Color: Dingy white, light green, dull brown; Same leaf sheath origin as S2; Good stripping quality"
+            Description: "Fiber size: 0.51–0.99 mm; Color: Dingy white, light green, dull brown; Same leaf sheath origin as S2; Good stripping quality",
+            imgsrc: '/images/g.jpg'
         },
 
         T: {
@@ -301,7 +307,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Lowest",
             Meaning: "Short, tangled, broken fibers",
             TypicalUses: "Mats, stuffing, pulp filler, coarse brushes",
-            Description: "Fiber length: < 60 cm; Made of broken, tip-cut, or tangled residues; Classified as residual grade"
+            Description: "Fiber length: < 60 cm; Made of broken, tip-cut, or tangled residues; Classified as residual grade",
+            imgsrc: '/images/t.jpg'
         },
 
         JK: {
@@ -309,7 +316,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Fair",
             Meaning: "Coarse, yellow-brown fiber",
             TypicalUses: "Sacks, kraft paper, lower-grade ropes",
-            Description: "Fiber size: 1.00–1.50 mm; Color: Dull brown/yellow, sometimes green streaks; Fair stripping; From inner/outer leaf sheaths"
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dull brown/yellow, sometimes green streaks; Fair stripping; From inner/outer leaf sheaths",
+            imgsrc: '/images/jk.jpg'
         },
 
         M1: {
@@ -317,7 +325,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Fair",
             Meaning: "Dark, coarse fiber",
             TypicalUses: "Agricultural twine, heavy ropes, low-grade pulp",
-            Description: "Fiber size: 1.00–1.50 mm; Color: Dark brown to almost black; Fair stripping; Usually from outer leaf sheaths"
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dark brown to almost black; Fair stripping; Usually from outer leaf sheaths",
+            imgsrc: '/images/m1.jpg'
         },
 
         Y2: {
@@ -325,7 +334,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             Quality: "Low",
             Meaning: "Weak, stained, or residual fiber",
             TypicalUses: "Brown packaging paper, stuffing, low-strength rope",
-            Description: "Residual fibers from grades H, JK, M1; Discolored or contaminated; Lower strength and stiffness"
+            Description: "Residual fibers from grades H, JK, M1; Discolored or contaminated; Lower strength and stiffness",
+            imgsrc: '/images/y2.jpg'
         }
     };
 
@@ -347,7 +357,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             ${code}
         </span>
         <div class="flex justify-center pb-4 border-b border-gray-300 pt-5">
-            <img src="/images/logo.png" alt="img" class="w-full max-w-[200px]" style="aspect-ratio:1">
+            <img src="${item.imgsrc}" alt="img" class="w-full max-w-[200px]" style="aspect-ratio:1">
         </div>
         <div class="p-4">
             <div class="mt-2">
@@ -514,7 +524,8 @@ const renderEducationalInfo = () => {
             Quality: "Excellent",
             Meaning: "Machine-stripped version of S2 (\"S-S2\"), very fine and clean",
             TypicalUses: "Currency paper, premium filters, specialty paper, high-quality cordage",
-            Description: "Same characteristics as S2 but processed by spindle/machine. Clean, fine, light-colored; excellent stripping consistency"
+            Description: "Same characteristics as S2 but processed by spindle/machine. Clean, fine, light-colored; excellent stripping consistency",
+            imgsrc: '/images/ss2.jpg'
         },
 
         S2: {
@@ -522,7 +533,8 @@ const renderEducationalInfo = () => {
             Quality: "Excellent",
             Meaning: "\"Streaky Two\" — very fine, clean, light ivory fiber",
             TypicalUses: "Currency paper, tea bags, specialty paper, premium cordage",
-            Description: "Fiber size: 0.20–0.50 mm, Ivory white to very light brown/red streaks, Texture: Soft, very fine; Comes from inner/middle leaf sheaths"
+            Description: "Fiber size: 0.20–0.50 mm, Ivory white to very light brown/red streaks, Texture: Soft, very fine; Comes from inner/middle leaf sheaths",
+            imgsrc: '/images/s2.jpg'
         },
 
         SS3: {
@@ -530,7 +542,8 @@ const renderEducationalInfo = () => {
             Quality: "Excellent",
             Meaning: "Machine-stripped version of S3 (\"S-S3\"), slightly darker excellent grade",
             TypicalUses: "Filters, premium industrial paper, woven products",
-            Description: "Same characteristics as S3 but processed by machine; excellent-quality fiber with more consistent strip"
+            Description: "Same characteristics as S3 but processed by machine; excellent-quality fiber with more consistent strip",
+            imgsrc: '/images/ss3.jpg'
         },
 
         S3: {
@@ -538,7 +551,8 @@ const renderEducationalInfo = () => {
             Quality: "Excellent",
             Meaning: "\"Streaky Three\" — fine but slightly darker than S2",
             TypicalUses: "Filters, fine papers, high-quality weaving",
-            Description: "Fiber size: 0.20–0.50 mm; Color: Reddish, purple, or darker brown tones; Comes from outer leaf sheaths"
+            Description: "Fiber size: 0.20–0.50 mm; Color: Reddish, purple, or darker brown tones; Comes from outer leaf sheaths",
+            imgsrc: '/images/s3.jpg'
         },
 
         I: {
@@ -546,7 +560,8 @@ const renderEducationalInfo = () => {
             Quality: "Good",
             Meaning: "Medium color & fineness",
             TypicalUses: "Rope, industrial paper, geotextiles",
-            Description: "Fiber size: 0.51–0.99 mm; Color: Very light to light brown; Texture: Medium soft; Good stripping quality"
+            Description: "Fiber size: 0.51–0.99 mm; Color: Very light to light brown; Texture: Medium soft; Good stripping quality",
+            imgsrc: '/images/i.jpg'
         },
 
         G: {
@@ -554,7 +569,8 @@ const renderEducationalInfo = () => {
             Quality: "Good",
             Meaning: "Light brown, medium-soft good fiber",
             TypicalUses: "Rope/twine, fiber composites",
-            Description: "Fiber size: 0.51–0.99 mm; Color: Dingy white, light green, dull brown; Same leaf sheath origin as S2; Good stripping quality"
+            Description: "Fiber size: 0.51–0.99 mm; Color: Dingy white, light green, dull brown; Same leaf sheath origin as S2; Good stripping quality",
+            imgsrc: '/images/g.jpg'
         },
 
         T: {
@@ -562,7 +578,8 @@ const renderEducationalInfo = () => {
             Quality: "Lowest",
             Meaning: "Short, tangled, broken fibers",
             TypicalUses: "Mats, stuffing, pulp filler, coarse brushes",
-            Description: "Fiber length: < 60 cm; Made of broken, tip-cut, or tangled residues; Classified as residual grade"
+            Description: "Fiber length: < 60 cm; Made of broken, tip-cut, or tangled residues; Classified as residual grade",
+            imgsrc: '/images/t.jpg'
         },
 
         JK: {
@@ -570,7 +587,8 @@ const renderEducationalInfo = () => {
             Quality: "Fair",
             Meaning: "Coarse, yellow-brown fiber",
             TypicalUses: "Sacks, kraft paper, lower-grade ropes",
-            Description: "Fiber size: 1.00–1.50 mm; Color: Dull brown/yellow, sometimes green streaks; Fair stripping; From inner/outer leaf sheaths"
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dull brown/yellow, sometimes green streaks; Fair stripping; From inner/outer leaf sheaths",
+            imgsrc: '/images/jk.jpg'
         },
 
         M1: {
@@ -578,7 +596,8 @@ const renderEducationalInfo = () => {
             Quality: "Fair",
             Meaning: "Dark, coarse fiber",
             TypicalUses: "Agricultural twine, heavy ropes, low-grade pulp",
-            Description: "Fiber size: 1.00–1.50 mm; Color: Dark brown to almost black; Fair stripping; Usually from outer leaf sheaths"
+            Description: "Fiber size: 1.00–1.50 mm; Color: Dark brown to almost black; Fair stripping; Usually from outer leaf sheaths",
+            imgsrc: '/images/m1.jpg'
         },
 
         Y2: {
@@ -586,7 +605,8 @@ const renderEducationalInfo = () => {
             Quality: "Low",
             Meaning: "Weak, stained, or residual fiber",
             TypicalUses: "Brown packaging paper, stuffing, low-strength rope",
-            Description: "Residual fibers from grades H, JK, M1; Discolored or contaminated; Lower strength and stiffness"
+            Description: "Residual fibers from grades H, JK, M1; Discolored or contaminated; Lower strength and stiffness",
+            imgsrc: '/images/y2.jpg'
         }
     };
 
@@ -609,7 +629,7 @@ const renderEducationalInfo = () => {
 
     
                 <div class="flex justify-center pb-4 border border-l-0 border-r-0 border-t-0 border-b-gray-300 pt-5">
-                    <img src="/images/logo.png" alt="img" class="w-full max-w-[200px]" style="aspect-ratio: 1">
+                    <img src="${item.imgsrc}" alt="img" class="w-full max-w-[200px]" style="aspect-ratio: 1">
                 </div>
     
                 <div class="p-4">

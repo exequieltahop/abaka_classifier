@@ -52,7 +52,7 @@
                             Upload Picture
                         </label>
 
-                        <input type="file" name="upload-img" id="upload-img" class="hidden m-0">
+                        <input type="file" name="upload-img" id="upload-img" class="hidden m-0" accept="image/*">
                     </form>
 
                 </div>
